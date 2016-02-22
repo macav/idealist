@@ -1,0 +1,23 @@
+{
+  "name": "idealist",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Zora Fuchs <zora.fuchs@renuo.ch>"
+    "Martin Cavoj <martincavoj@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/zorafuchs/idealist",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}

@@ -1,4 +1,5 @@
 System.register(['angular2/core'], function(exports_1) {
+    "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -23,12 +24,12 @@ System.register(['angular2/core'], function(exports_1) {
                     core_1.Component({
                         inputs: ['idea'],
                         selector: 'my-idea-detail',
-                        template: "\n  <div *ngIf=\"idea\">\n    <h2>{{idea.title}} details!</h2>\n    <div><label>id: </label>{{idea.id}}</div>\n    <div>\n      <label>name: </label>\n      <input [(ngModel)]=\"idea.description\" placeholder=\"description\"/>\n    </div>\n  </div>\n",
+                        template: "\n  <form *ngIf=\"idea\" class=\"form-horizontal\">\n    <h2>{{idea.title}} details!</h2>\n    <div class=\"form-group\">\n      <label class=\"col-sm-2 control-label\">ID: </label>\n      <div class=\"col-xs-10\">\n        <p class=\"form-control-static\">{{idea.id}}</p>\n      </div>\n    </div>\n    <div class=\"form-group\">\n      <label class=\"col-sm-2 control-label\">Name: </label>\n      <div class=\"col-xs-10\">\n        <p class=\"form-control-static\">{{idea.title}}</p>\n      </div>\n    </div>\n    <div class=\"form-group\">\n      <label class=\"col-sm-2 control-label\">Description: </label>\n      <div class=\"col-xs-10\">\n        <p class=\"form-control-static\">{{idea.description}}</p>\n      </div>\n    </div>\n  </form>\n",
                     }), 
                     __metadata('design:paramtypes', [])
                 ], IdeaDetailComponent);
                 return IdeaDetailComponent;
-            })();
+            }());
             exports_1("IdeaDetailComponent", IdeaDetailComponent);
         }
     }

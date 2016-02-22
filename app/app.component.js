@@ -1,4 +1,5 @@
 System.register(['angular2/core', './idea-detail.component', './idea.service', './OrderByPipe'], function(exports_1) {
+    "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -26,17 +27,11 @@ System.register(['angular2/core', './idea-detail.component', './idea.service', '
             }],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent() {
-                }
-                AppComponent.prototype.ngOnInit = function () {
-                };
-                return AppComponent;
-            })();
-            exports_1("AppComponent", AppComponent);
-            AppComponent = (function () {
                 function AppComponent(_ideaService) {
                     this._ideaService = _ideaService;
                     this.title = 'Tour of ideas';
+                    this.likesChange = new core_1.EventEmitter();
+                    this.newIdea = {};
                 }
                 AppComponent.prototype.onSelect = function (idea) { this.selectedIdea = idea; };
                 AppComponent.prototype.like = function (idea) { idea.likes++; };
@@ -44,22 +39,28 @@ System.register(['angular2/core', './idea-detail.component', './idea.service', '
                     var _this = this;
                     this._ideaService.getIdeas().then(function (ideas) { return _this.ideas = ideas; });
                 };
+                AppComponent.prototype.addNewIdea = function () {
+                    this.newIdea.likes = 0;
+                    this.ideas.push(this.newIdea);
+                    this.newIdea = {};
+                };
                 AppComponent.prototype.ngOnInit = function () {
                     this.getIdeas();
                 };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
-                        template: "\n    <h1>{{title}}</h1>'\n    <h2>Renuo Ideas</h2>'\n    <ul class=\"ideas\">\n    <li *ngFor=\"#idea of ideas | orderBy:likes\" [class.selected]=\"idea === selectedidea\" (click)=\"onSelect(idea)\">\n    <span class=\"badge\">{{idea.likes}}</span> {{idea.title}} <button (click)=\"like(idea)\">I like it</button>\n    </li>\n    </ul>\n    <my-idea-detail [idea]=\"selectedIdea\"></my-idea-detail>",
-                        styles: ["\n  .selected {\n    background-color: #CFD8DC !important;\n    color: white;\n  }\n  .ideas {\n    margin: 0 0 2em 0;\n    list-style-type: none;\n    padding: 0;\n  }\n  .ideas li {\n    cursor: pointer;\n    position: relative;\n    left: 0;\n    background-color: #EEE;\n    margin: .5em;\n    padding: .3em 0em;\n    height: 1.6em;\n    border-radius: 4px;\n  }\n  .ideas li.selected:hover {\n    color: white;\n  }\n  .ideas li:hover {\n    color: #607D8B;\n    background-color: #EEE;\n    left: .1em;\n  }\n  .ideas .text {\n    position: relative;\n    top: -3px;\n  }\n  .ideas .badge {\n    display: inline-block;\n    font-size: small;\n    color: white;\n    padding: 0.8em 0.7em 0em 0.7em;\n    background-color: #607D8B;\n    line-height: 1em;\n    position: relative;\n    left: -1px;\n    top: -4px;\n    height: 1.8em;\n    margin-right: .8em;\n    border-radius: 4px 0px 0px 4px;\n  }\n"],
+                        template: "\n    <div class=\"container\">\n      <h1>{{title}}</h1>\n      <div class=\"row\">\n        <div class=\"col-xs-12 col-sm-3\">\n          <form (ngSubmit)=\"addNewIdea()\">\n            <div class=\"form-group\">\n              <label>New idea: </label>\n              <input [(ngModel)]=\"newIdea.title\" class=\"form-control\" placeholder=\"Title\"/>\n            </div>\n            <div class=\"form-group\">\n              <label>Idea's description: </label>\n              <textarea [(ngModel)]=\"newIdea.description\" class=\"form-control\" placeholder=\"Description\"></textarea>\n            </div>\n            <div class=\"form-group\">\n              <button type=\"submit\" class=\"btn btn-primary\">Add new idea</button>\n            </div>\n          </form>\n        </div>\n      </div>\n      <h2>Renuo Ideas</h2>\n      <ul class=\"list-group\">\n        <li *ngFor=\"#idea of ideas | orderBy:'likes'\" [class.active]=\"idea === selectedIdea\" (click)=\"onSelect(idea)\" class=\"list-group-item\">\n          <span class=\"badge pull-left\">{{idea.likes}}</span>\n          {{idea.title}}\n          <button class=\"btn btn-xs btn-primary pull-right idea-like-btn\" (click)=\"like(idea)\">I like it</button>\n        </li>\n      </ul>\n      <my-idea-detail [idea]=\"selectedIdea\"></my-idea-detail>\n    </div>\n    ",
+                        styles: ["\n  .badge.pull-left {\n    margin-right: 10px;\n  }\n  .badge {\n    background-color: #337ab7;\n  }\n  li.list-group-item {\n    cursor: pointer;\n  }\n  li.list-group-item.active > .idea-like-btn {\n    background-color: #fff;\n    color: #337ab7;\n    font-weight: bold;\n  }\n"],
                         directives: [idea_detail_component_1.IdeaDetailComponent],
                         providers: [idea_service_1.IdeaService],
                         pipes: [OrderByPipe_1.default],
+                        events: ['likesChange'],
                     }), 
                     __metadata('design:paramtypes', [idea_service_1.IdeaService])
                 ], AppComponent);
                 return AppComponent;
-            })();
+            }());
             exports_1("AppComponent", AppComponent);
         }
     }

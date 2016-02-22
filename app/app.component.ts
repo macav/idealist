@@ -1,93 +1,88 @@
-import {Component} from 'angular2/core';
+import {Component, ChangeDetectionStrategy, EventEmitter} from 'angular2/core';
 import {Idea} from './idea';
 import {IdeaDetailComponent} from './idea-detail.component';
 import {IdeaService} from './idea.service';
 import {OnInit} from 'angular2/core';
 import OrderByPipe from './OrderByPipe';
 
-export class AppComponent implements OnInit {
-    ngOnInit() {
-    }
-}
 
 @Component({
     selector: 'my-app',
     template: `
-    <h1>{{title}}</h1>'
-    <h2>Renuo Ideas</h2>'
-    <ul class="ideas">
-    <li *ngFor="#idea of ideas | orderBy:likes" [class.selected]="idea === selectedidea" (click)="onSelect(idea)">
-    <span class="badge">{{idea.likes}}</span> {{idea.title}} <button (click)="like(idea)">I like it</button>
-    </li>
-    </ul>
-    <my-idea-detail [idea]="selectedIdea"></my-idea-detail>`,
+    <div class="container">
+      <h1>{{title}}</h1>
+      <div class="row">
+        <div class="col-xs-12 col-sm-3">
+          <form (ngSubmit)="addNewIdea()">
+            <div class="form-group">
+              <label>New idea: </label>
+              <input [(ngModel)]="newIdea.title" class="form-control" placeholder="Title"/>
+            </div>
+            <div class="form-group">
+              <label>Idea's description: </label>
+              <textarea [(ngModel)]="newIdea.description" class="form-control" placeholder="Description"></textarea>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Add new idea</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <h2>Renuo Ideas</h2>
+      <ul class="list-group">
+        <li *ngFor="#idea of ideas | orderBy:'likes'" [class.active]="idea === selectedIdea" (click)="onSelect(idea)" class="list-group-item">
+          <span class="badge pull-left">{{idea.likes}}</span>
+          {{idea.title}}
+          <button class="btn btn-xs btn-primary pull-right idea-like-btn" (click)="like(idea)">I like it</button>
+        </li>
+      </ul>
+      <my-idea-detail [idea]="selectedIdea"></my-idea-detail>
+    </div>
+    `,
 
 
     styles:[`
-  .selected {
-    background-color: #CFD8DC !important;
-    color: white;
+  .badge.pull-left {
+    margin-right: 10px;
   }
-  .ideas {
-    margin: 0 0 2em 0;
-    list-style-type: none;
-    padding: 0;
+  .badge {
+    background-color: #337ab7;
   }
-  .ideas li {
+  li.list-group-item {
     cursor: pointer;
-    position: relative;
-    left: 0;
-    background-color: #EEE;
-    margin: .5em;
-    padding: .3em 0em;
-    height: 1.6em;
-    border-radius: 4px;
   }
-  .ideas li.selected:hover {
-    color: white;
-  }
-  .ideas li:hover {
-    color: #607D8B;
-    background-color: #EEE;
-    left: .1em;
-  }
-  .ideas .text {
-    position: relative;
-    top: -3px;
-  }
-  .ideas .badge {
-    display: inline-block;
-    font-size: small;
-    color: white;
-    padding: 0.8em 0.7em 0em 0.7em;
-    background-color: #607D8B;
-    line-height: 1em;
-    position: relative;
-    left: -1px;
-    top: -4px;
-    height: 1.8em;
-    margin-right: .8em;
-    border-radius: 4px 0px 0px 4px;
+  li.list-group-item.active > .idea-like-btn {
+    background-color: #fff;
+    color: #337ab7;
+    font-weight: bold;
   }
 `],
     directives: [IdeaDetailComponent],
     providers: [IdeaService],
     pipes: [OrderByPipe],
-
+    events: ['likesChange'],
+    // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
     public title = 'Tour of ideas';
     public selectedIdea: Idea;
     public ideas: Idea[];
-    constructor(private _ideaService: IdeaService) { }
+    public newIdea:Idea;
+    likesChange = new EventEmitter();
+    constructor(private _ideaService: IdeaService) {
+      this.newIdea = <Idea>{};
+    }
     onSelect(idea: Idea) { this.selectedIdea = idea; }
     like(idea: Idea) { idea.likes++;}
     getIdeas() {
         this._ideaService.getIdeas().then(ideas => this.ideas = ideas);
     }
+    addNewIdea() {
+      this.newIdea.likes = 0;
+      this.ideas.push(this.newIdea);
+      this.newIdea = <Idea>{};
+    }
     ngOnInit() {
         this.getIdeas();
     }
 }
-
-

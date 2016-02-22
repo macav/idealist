@@ -1,4 +1,5 @@
 System.register(['angular2/core'], function(exports_1) {
+    "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -21,13 +22,13 @@ System.register(['angular2/core'], function(exports_1) {
                 }
                 OrderByPipe.prototype.transform = function (input, args) {
                     if (input) {
-                        var property = args[0];
-                        return input.slice().sort(function (a, b) {
-                            if (a[property] < b[property]) {
-                                return -1;
-                            }
-                            else if (b[property] < a[property]) {
+                        var property_1 = args[0];
+                        return input.sort(function (a, b) {
+                            if (a[property_1] < b[property_1]) {
                                 return 1;
+                            }
+                            else if (b[property_1] < a[property_1]) {
+                                return -1;
                             }
                             else {
                                 return 0;
@@ -39,11 +40,14 @@ System.register(['angular2/core'], function(exports_1) {
                     }
                 };
                 OrderByPipe = __decorate([
-                    core_1.Pipe({ name: 'orderBy' }), 
+                    core_1.Pipe({
+                        name: 'orderBy',
+                        pure: false
+                    }), 
                     __metadata('design:paramtypes', [])
                 ], OrderByPipe);
                 return OrderByPipe;
-            })();
+            }());
             exports_1("default", OrderByPipe);
         }
     }
